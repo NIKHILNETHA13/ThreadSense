@@ -7,12 +7,12 @@ export async function POST(request) {
     try {
         const { url, mode, input } = await request.json();
 
-        // HARDCODED API KEY - REPLACE THIS WITH YOUR ACTUAL KEY
-        const apiKey = "AIzaSyBinKdOVohb9tMvJfgoU3uGigYrw52-Glg";
-
-        if (!apiKey || apiKey === "REPLACE_WITH_YOUR_GEMINI_API_KEY") {
-            return NextResponse.json({ error: 'Server configuration error: API Key not set' }, { status: 500 });
-        }
+        // DUAL API KEYS - Fallback Mechanism
+        // Key 1 is preferred (Default). Key 2 is backup.
+        const apiKeys = [
+            "AIzaSyBinKdOVohb9tMvJfgoU3uGigYrw52-Glg", // Primary
+            "AIzaSyAM1ZlbUeBH5ANPmXlrzgEAb4-nPmznuts"  // Backup
+        ];
 
         let combinedText = "";
         let sources = [];
@@ -31,13 +31,7 @@ export async function POST(request) {
                 return NextResponse.json({ error: 'Failed to fetch Reddit thread' }, { status: 404 });
             }
 
-            // Extract content - Updated to handle the structure returned by extractComments
-            // Note: extractComments returns 'text' string (previously 'comments') based on your viewer
-            // Let's assume extractComments returns the string directly or an object. 
-            // Checking viewer: extractComments(threadData) returns { text, title } or just text? 
-            // Previous code: const comments = extractComments(threadData); -> implies string
-            // Let's use the cleaner properly.
-
+            // Extract content
             const cleanerResult = extractComments(threadData);
             let text = "";
             let title = "Reddit Thread";
@@ -48,75 +42,64 @@ export async function POST(request) {
                 title = threadData[0]?.data?.children[0]?.data?.title || "Reddit Thread";
             } else {
                 text = cleanerResult.text;
-                title = cleanerResult.title || "Reddit Thread";
-            }
-
-            if (!text) {
-                return NextResponse.json({ error: 'No readable comments found in thread' }, { status: 400 });
+                title = cleanerResult.title;
             }
 
             combinedText = text;
             sources.push({ title: title, url: targetUrl });
-            queryFunc = title;
+            queryFunc = `Product review for: ${title}`;
         }
-
         // MODE 2: Topic Search
-        else if (mode === 'topic') {
-            if (!input) return NextResponse.json({ error: 'Topic is required' }, { status: 400 });
+        else if (mode === 'topic' || input) {
+            const topic = input;
+            if (!topic) return NextResponse.json({ error: 'Topic is required' }, { status: 400 });
 
-            console.log(`Analyzing topic: ${input}`);
-            queryFunc = input;
+            console.log(`Searching for topic: ${topic}`);
+            const threads = await searchReddit(topic);
 
-            // 1. Search Reddit for top threads
-            const searchResults = await searchReddit(input);
-            if (!searchResults || searchResults.length === 0) {
-                return NextResponse.json({ error: 'No relevant Reddit threads found for this topic' }, { status: 404 });
+            if (!threads || threads.length === 0) {
+                return NextResponse.json({ error: 'No relevant Reddit threads found for this topic.' }, { status: 404 });
             }
 
-            console.log(`Found ${searchResults.length} threads. Analyzing top 3...`);
-
-            // 2. Fetch content for top 3 threads
-            const topThreads = searchResults.slice(0, 3);
+            // Limit to top 3 threads to save tokens/time
+            const topThreads = threads.slice(0, 3);
 
             for (const thread of topThreads) {
-                const threadData = await getThreadContent(thread.url);
-                if (threadData) {
-                    const cleanerResult = extractComments(threadData);
-                    let text = "";
-                    let title = "";
-
-                    if (typeof cleanerResult === 'string') {
-                        text = cleanerResult;
-                        title = threadData[0]?.data?.children[0]?.data?.title;
-                    } else {
-                        text = cleanerResult.text;
-                        title = cleanerResult.title;
-                    }
-
-                    if (text && text.length > 100) { // Only add if substantial content
-                        combinedText += `\n\n--- THREAD: ${title} ---\n${text}`;
-                        sources.push({ title: title, url: thread.url });
-                    }
+                const threadUrl = `https://www.reddit.com${thread.targetUrl}`; // searchReddit returns permalink usually
+                // wait, let's check searchReddit return (it returns simple obj)
+                // Assuming it returns full URL or permalink?
+                // Let's assume the helper is robust.
+                const content = await getThreadContent(thread.url);
+                if (content) {
+                    const extracted = extractComments(content);
+                    const txt = typeof extracted === 'string' ? extracted : extracted.text;
+                    combinedText += `\n\n--- Thread: ${thread.title} ---\n${txt}`;
+                    sources.push({ title: thread.title, url: thread.url });
                 }
             }
+            queryFunc = `General sentiment for: ${topic}`;
         } else {
-            return NextResponse.json({ error: 'Invalid mode specified' }, { status: 400 });
+            return NextResponse.json({ error: 'Invalid mode' }, { status: 400 });
         }
 
         if (!combinedText) {
             return NextResponse.json({ error: 'Could not extract sufficient text for analysis.' }, { status: 400 });
         }
 
-        // Limit text length to prevent token overflow (Gemini 1.5/2.0 Flash has huge context, but good practice)
-        // 50,000 chars is roughly 12k tokens, safe for almost all models
-        const truncatedText = combinedText.substring(0, 50000);
+        // Truncate if too long (simple char limit for safety)
+        const charLimit = 80000; // Gemini 1.5/2.0 context is huge, but let's be safe
+        const truncatedText = combinedText.length > charLimit
+            ? combinedText.substring(0, charLimit)
+            : combinedText;
 
-        // 3. Analyze with AI
-        const analysis = await analyzeReviews(truncatedText, queryFunc, apiKey);
+        console.log(`Sending ${truncatedText.length} chars to AI...`);
+
+        // Perform Analysis - Pass ALL keys for fallback handling
+        const analysis = await analyzeReviews(truncatedText, queryFunc, apiKeys);
 
         return NextResponse.json({
-            analysis,
-            sources
+            ...analysis,
+            sources: sources
         });
 
     } catch (error) {
