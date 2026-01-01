@@ -256,8 +256,75 @@ export default function App() {
                                 ) : <p>No specific competitors named.</p>}
                             </div>
                         </div>
+
+                        {/* Referenced Threads */}
+                        {result.sources && result.sources.length > 0 && (
+                            <div className="card-glass" style={{
+                                marginTop: '2rem',
+                                animation: 'slideUp 0.5s ease-out 0.5s backwards'
+                            }}>
+                                <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                    🎯 Referenced Threads
+                                    <span style={{ fontSize: '0.9rem', fontWeight: '400', color: 'var(--text-muted)' }}>({result.sources.length})</span>
+                                </h3>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                    {result.sources.map((source, i) => (
+                                        <a
+                                            key={i}
+                                            href={source.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="card-feature"
+                                            style={{
+                                                textDecoration: 'none',
+                                                padding: '1rem',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between',
+                                                transition: 'all 0.2s ease',
+                                                border: '1px solid rgba(0,0,0,0.05)',
+                                                background: 'rgba(255,255,255,0.5)'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.currentTarget.style.transform = 'translateX(8px)';
+                                                e.currentTarget.style.borderColor = 'rgba(255, 0, 0, 0.2)';
+                                                e.currentTarget.style.background = 'white';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.currentTarget.style.transform = 'translateX(0)';
+                                                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                                                e.currentTarget.style.background = 'rgba(255,255,255,0.5)';
+                                            }}
+                                        >
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                <div style={{
+                                                    width: '32px',
+                                                    height: '32px',
+                                                    borderRadius: '8px',
+                                                    background: 'rgba(255, 69, 0, 0.1)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    color: '#FF4500'
+                                                }}>
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                                        <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.687 0 1.25.562 1.25 1.25 0 .687-.563 1.25-1.25 1.25-.477 0-.899-.192-1.208-.49a7.16 7.16 0 0 1-4.823 1.28c-.144 1.137-.411 2.41-.61 3.52-.392.203-.865.318-1.366.318-.687 0-1.25-.563-1.25-1.25 0-.256.079-.49.213-.685l.407-2.31c-1.845.03-3.08-.26-4.04-1.09-.308.309-.73.501-1.207.501-.687 0-1.25-.562-1.25-1.25 0-.688.563-1.25 1.25-1.25.477 0 .899.193 1.207.492.355-.304.815-.558 1.36-.742l.533-2.52.01-.054c.006-.027.013-.053.021-.08l.79-3.703c.03-.13.14-.23.27-.23.013 0 .027.001.04.003L15.38 4.77c.18-.02.344.02.483.11.14-.09.303-.136.483-.136zm-4.704 8.243c.414 0 .75.336.75.75s-.336.75-.75.75-.75-.336-.75-.75.336-.75.75-.75zm4.39 0c.414 0 .75.336.75.75s-.336.75-.75.75-.75-.336-.75-.75.336-.75.75-.75z" />
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <div style={{ fontWeight: '600', color: 'var(--text-main)', fontSize: '0.95rem' }}>{source.title}</div>
+                                                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>{source.url}</div>
+                                                </div>
+                                            </div>
+                                            <div className="icon" style={{ opacity: 0.3 }}>↗</div>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
+
             </section>
         </>
     );
