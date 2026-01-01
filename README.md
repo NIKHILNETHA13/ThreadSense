@@ -49,5 +49,3 @@ Redeco (Review Decoder) validates products and ideas by analyzing Reddit discuss
 - **AI**: Google Gemini API (Free Tier)
 - **Data**: Reddit Public JSON API
 
-## 📝 License
-MIT
