@@ -7,10 +7,11 @@ export async function POST(request) {
     try {
         const { url, mode, input } = await request.json();
 
-        // HARDCODED API KEY - Simple version that works
-        const apiKey = "AIzaSyBinKdOVohb9tMvJfgoU3uGigYrw52-Glg";
+        // Use Environment Variable for security
+        const apiKey = process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY_1;
 
         if (!apiKey) {
+            console.error("API Key missing! Ensure GEMINI_API_KEY is set in your environment.");
             return NextResponse.json({ error: 'Server configuration error: API Key not set' }, { status: 500 });
         }
 
