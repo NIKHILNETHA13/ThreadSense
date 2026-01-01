@@ -14,8 +14,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: "ThreadSense",
-  description: "AI-Powered Reddit Intelligence",
+  title: "Redeco - Review Decoder",
+  description: "AI-Powered Reddit Review Intelligence - Decode authentic product insights from real discussions",
 };
 
 export default function RootLayout({ children }) {

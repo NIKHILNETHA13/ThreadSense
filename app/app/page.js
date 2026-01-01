@@ -54,9 +54,17 @@ export default function App() {
 
             {/* App Navigation */}
             <nav className="navbar">
-                <div className="logo">
-                    <Link href="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '1.2em' }}>🔴</span> ThreadSense
+                <div className="logo" style={{ gap: '0' }}>
+                    <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                        <img
+                            src="/redeco-logo.png"
+                            alt="Redeco Logo"
+                            style={{
+                                height: '45px',
+                                width: 'auto',
+                                transition: 'all 0.3s ease'
+                            }}
+                        />
                     </Link>
                 </div>
                 <div className="nav-links">
@@ -95,8 +103,30 @@ export default function App() {
                             onChange={(e) => setInput(e.target.value)}
                             required
                         />
-                        <button type="submit" className="btn-primary" style={{ justifyContent: 'center' }} disabled={loading}>
-                            {loading ? 'Analyzing...' : 'Reveal Insights'}
+                        <button
+                            type="submit"
+                            className="btn-primary"
+                            style={{
+                                justifyContent: 'center',
+                                width: '100%',
+                                padding: '16px 32px',
+                                fontSize: '1.05rem',
+                                fontWeight: '600'
+                            }}
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <>
+                                    <span style={{ display: 'inline-flex', gap: '8px', alignItems: 'center' }}>
+                                        <span className="loader-dot" style={{ width: '8px', height: '8px', margin: '0' }}></span>
+                                        <span className="loader-dot" style={{ width: '8px', height: '8px', margin: '0' }}></span>
+                                        <span className="loader-dot" style={{ width: '8px', height: '8px', margin: '0' }}></span>
+                                        Analyzing...
+                                    </span>
+                                </>
+                            ) : (
+                                '✨ Reveal Insights'
+                            )}
                         </button>
                     </form>
 
