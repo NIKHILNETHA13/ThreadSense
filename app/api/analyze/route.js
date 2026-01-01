@@ -7,37 +7,12 @@ export async function POST(request) {
     try {
         const { url, mode, input } = await request.json();
 
-        const apiKey1 = process.env.GEMINI_API_KEY_1 || process.env.GEMINI_API_KEY; // Fallback for backward compat
-        const apiKey2 = process.env.GEMINI_API_KEY_2;
+        // HARDCODED API KEY - Simple version that works
+        const apiKey = "AIzaSyBinKdOVohb9tMvJfgoU3uGigYrw52-Glg";
 
-        if (!apiKey1) {
-            console.error("API Key missing in environment variables");
+        if (!apiKey) {
             return NextResponse.json({ error: 'Server configuration error: API Key not set' }, { status: 500 });
         }
-
-        // ... (rest of the setup)
-
-        // Wrapper function to try analysis with fallback
-        const performAnalysis = async (text, query) => {
-            try {
-                console.log("Attempting analysis with Primary API Key...");
-                return await analyzeReviews(text, query, apiKey1);
-            } catch (error) {
-                const isAuthOrRateLimit = error.message.includes("401") ||
-                    error.message.includes("403") ||
-                    error.message.includes("429") ||
-                    error.message.includes("key") ||
-                    error.message.includes("Rate limit") ||
-                    error.message.includes("Access Denied");
-
-                if (isAuthOrRateLimit && apiKey2 && apiKey2 !== "REPLACE_WITH_YOUR_SECOND_KEY") {
-                    console.warn(`Primary Key failed (${error.message}). Switching to Secondary API Key...`);
-                    return await analyzeReviews(text, query, apiKey2);
-                } else {
-                    throw error;
-                }
-            }
-        };
 
         let combinedText = "";
         let sources = [];
@@ -120,7 +95,7 @@ export async function POST(request) {
         console.log(`Sending ${truncatedText.length} chars to AI...`);
 
         // Perform Analysis
-        const analysis = await performAnalysis(truncatedText, queryFunc);
+        const analysis = await analyzeReviews(truncatedText, queryFunc, apiKey);
 
         return NextResponse.json({
             analysis: analysis,
