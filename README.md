@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔴 ThreadSense
 
-## Getting Started
+**Real Intelligence from Real Discussions.**
 
-First, run the development server:
+ThreadSense validates products and ideas by analyzing Reddit discussions. It uses AI to filter out the noise, detect sentiment, and summarize the community consensus in seconds.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **🛡️ Unfiltered Truth**: Bypasses SEO blogs and fake reviews to get real user opinions.
+- **📊 Sentiment Gauge**: Visualizes the "vibe" of a product with a dynamic meter and emoji.
+- **⚠ Risk Radar**: Automatically detects dealbreakers and recurring complaints.
+- **⚡ Competitor Recon**: Identifies alternatives mentioned by users.
+- **🧠 AI-Powered**: Uses Google Gemini 1.5/2.0 Flash for blazing fast analysis.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🚀 How to Run
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisities
+- Node.js 18+ installed.
+- A free [Google Gemini API Key](https://aistudio.google.com/app/apikey).
 
-## Learn More
+### Setup
 
-To learn more about Next.js, take a look at the following resources:
+1.  **Clone the repository**
+    ```bash
+    git clone <your-repo-url>
+    cd redditreview
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2.  **Install Dependencies**
+    ```bash
+    npm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.  **Configure API Key**
+    - Open `lib/ai.js` (or `app/api/analyze/route.js` if you hardcoded it).
+    - Ensure your API key is set.
+    - *Note: In a production app, use `.env.local`.*
 
-## Deploy on Vercel
+4.  **Run the App**
+    ```bash
+    npm run dev
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5.  **Open in Browser**
+    - Visit [http://localhost:3000](http://localhost:3000).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Tech Stack
+- **Framework**: Next.js 15 (App Router)
+- **Styling**: Vanilla CSS, Glassmorphism
+- **AI**: Google Gemini API (Free Tier)
+- **Data**: Reddit Public JSON API
+
+## 📝 License
+MIT

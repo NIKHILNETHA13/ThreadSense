@@ -1,177 +1,163 @@
 'use client';
 
-import { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import Link from 'next/link';
 
-export default function Home() {
-  const [query, setQuery] = useState('');
-  const [apiKey, setApiKey] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState(null);
-  const [status, setStatus] = useState('');
+export default function LandingPage() {
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!query || !apiKey) return;
-
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    setStatus('Searching Reddit for honest discussions...');
-
-    try {
-      const res = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, apiKey }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Something went wrong');
-      }
-
-      setResult(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-      setStatus('');
-    }
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <main className="container" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-        <h1 className="gradient-text">Reddit Review Analyzer</h1>
-        <p style={{ fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
-          Get the honest truth about any product or topic from real Reddit conversations, summarized by AI.
+    <>
+      <div className="bg-mesh">
+        <div className="shape shape-1"></div>
+        <div className="shape shape-2"></div>
+        <div className="shape shape-3"></div>
+      </div>
+
+      {/* Navigation Bar */}
+      <nav className="navbar">
+        <div className="logo">
+          <span style={{ fontSize: '1.2em' }}>🔴</span> ThreadSense
+        </div>
+        <div className="nav-links">
+          <Link href="/app" className="nav-link" style={{ fontWeight: '700', color: 'var(--primary)' }}>Launch App</Link>
+          <a onClick={() => scrollToSection('why-use')} className="nav-link">Why Use</a>
+          <a onClick={() => scrollToSection('pricing')} className="nav-link">Pricing</a>
+          <a onClick={() => scrollToSection('faqs')} className="nav-link">FAQs</a>
+          <a onClick={() => scrollToSection('contact')} className="nav-link">Contact</a>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="section hero-section">
+        <h1 style={{ fontSize: '4rem', marginBottom: '1.5rem', color: '#111827' }}>
+          Real Intelligence from <br />
+          <span style={{ color: 'var(--primary)' }}>Real Discussions.</span>
+        </h1>
+        <p style={{ fontSize: '1.3rem', marginBottom: '3rem', maxWidth: '650px', margin: '0 auto 3rem auto', color: 'var(--text-muted)' }}>
+          ThreadSense uses advanced AI to sift through thousands of Reddit comments, filtering out the noise to give you the honest truth about any product or company in seconds.
         </p>
-      </div>
 
-      <div className="glass-card" style={{ maxWidth: '800px', margin: '0 auto 4rem auto' }}>
-        <form onSubmit={handleSearch} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>1. Enter your Gemini API Key (Free)</label>
-            <input
-              type="password"
-              placeholder="Paste your Google Gemini API Key here"
-              className="input-field"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              required
-            />
-            <p style={{ fontSize: '0.8rem', marginTop: '0.5rem', opacity: 0.7 }}>
-              Don't have one? Get it for free at <a href="https://aistudio.google.com/app/apikey" target="_blank" style={{ color: 'var(--accent-secondary)' }}>Google AI Studio</a>.
-            </p>
-          </div>
-
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>2. What do you want to research?</label>
-            <input
-              type="text"
-              placeholder="e.g., Sony WH-1000XM5 issues, Herman Miller Aeron worth it?"
-              className="input-field"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              required
-            />
-          </div>
-
-          <button type="submit" className="btn-primary" disabled={loading} style={{ marginTop: '1rem', opacity: loading ? 0.7 : 1 }}>
-            {loading ? 'Analyzing...' : 'Analyze Reviews'}
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+          <Link href="/app">
+            <button className="btn-primary" style={{ padding: '16px 32px', fontSize: '1.1rem' }}>
+              Launch App →
+            </button>
+          </Link>
+          <button onClick={() => scrollToSection('why-use')} className="btn-primary" style={{ background: 'white', color: 'var(--text-main)', border: '1px solid #e2e8f0', boxShadow: 'none' }}>
+            Learn More
           </button>
-        </form>
+        </div>
 
-        {loading && (
-          <div style={{ textAlign: 'center', padding: '2rem' }}>
-            <div className="spinner"></div>
-            <p style={{ marginTop: '1rem' }}>{status}</p>
+        {/* Hero Image */}
+        <div style={{ marginTop: '4rem', maxWidth: '50%', margin: '4rem auto 0 auto', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.15)', border: '1px solid rgba(0,0,0,0.05)', background: 'white' }}>
+          <img
+            src="/hero_illustration.png"
+            alt="ThreadSense Dashboard Interface"
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+          />
+        </div>
+      </section>
+
+      {/* Why Use Section */}
+      <section id="why-use" className="section reveal-on-scroll" style={{ background: 'rgba(255,255,255,0.4)', borderRadius: '30px', margin: '4rem auto' }}>
+        <h2 className="section-title">Why ThreadSense?</h2>
+        <div className="grid-cols-2">
+          <div className="card-glass" style={{ background: '#fff1f2' }}>
+            <h3 style={{ color: 'var(--primary)' }}>Unfiltered Truth</h3>
+            <p>Amazon reviews are faked. SEO blogs are bought. Reddit is the last place to find raw, unfiltered user opinions.</p>
           </div>
-        )}
-
-        {error && (
-          <div style={{ padding: '1rem', background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)', borderRadius: '8px', marginTop: '1rem', color: '#ff6b6b' }}>
-            <strong>Error:</strong> {error}
+          <div className="card-glass" style={{ background: '#fff1f2' }}>
+            <h3 style={{ color: 'var(--primary)' }}>Sentiment Metrics</h3>
+            <p>Don't guess. We score every thread on a 1-10 scale and give you a clear "Buy" or "Avoid" verdict based on community sentiment.</p>
           </div>
-        )}
-      </div>
-
-      {result && (
-        <div style={{ display: 'grid', gap: '2rem' }}>
-
-          {/* Summary Section */}
-          <div className="glass-card">
-            <h2 className="gradient-text">The Verdict</h2>
-            <div style={{ marginBottom: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
-              <strong style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--accent-secondary)' }}>SENTIMENT ANALYSIS</strong>
-              <p style={{ fontSize: '1.2rem', color: 'white' }}>{result.analysis.sentiment}</p>
-            </div>
-
-            <h3>Executive Summary</h3>
-            <div style={{ lineHeight: '1.8', color: '#d4d4d4' }}>
-              <ReactMarkdown>{result.analysis.summary}</ReactMarkdown>
-            </div>
+          <div className="card-glass" style={{ background: '#fff1f2' }}>
+            <h3 style={{ color: 'var(--primary)' }}>Competitor Recon</h3>
+            <p>Paste a competitor's name and see exactly where they are failing. Fill the gap in the market they left open.</p>
           </div>
-
-          {/* Pros & Cons Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-            <div className="glass-card">
-              <h3 style={{ color: '#00ff9d', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>👍 The Good</h3>
-              <ul style={{ listStyle: 'none', marginTop: '1rem' }}>
-                {result.analysis.pros.map((pro, index) => (
-                  <li key={index} className="pro-item">
-                    <span className="pro-icon">✓</span>
-                    <span>{pro}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="glass-card">
-              <h3 style={{ color: '#ff4d4d', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>👎 The Bad</h3>
-              <ul style={{ listStyle: 'none', marginTop: '1rem' }}>
-                {result.analysis.cons.map((con, index) => (
-                  <li key={index} className="con-item">
-                    <span className="con-icon">✕</span>
-                    <span>{con}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="card-glass" style={{ background: '#fff1f2' }}>
+            <h3 style={{ color: 'var(--primary)' }}>Save 90% Time</h3>
+            <p>Don't read 500 comments. Read one executive summary that synthesizes the consensus of the community.</p>
           </div>
+        </div>
+      </section>
 
-          {/* Quotes */}
-          <div className="glass-card">
-            <h3>Real User Voices</h3>
-            <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
-              {result.analysis.quotes ? result.analysis.quotes.map((quote, i) => (
-                <blockquote key={i} style={{ borderLeft: '4px solid var(--accent-primary)', paddingLeft: '1rem', fontStyle: 'italic', background: 'rgba(0,0,0,0.2)', padding: '1rem' }}>
-                  "{quote}"
-                </blockquote>
-              )) : <p>No specific quotes extracted.</p>}
-            </div>
-          </div>
+      {/* Pricing Section */}
+      <section id="pricing" className="section reveal-on-scroll">
+        <h2 className="section-title">Simple Pricing</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', maxWidth: '900px', margin: '0 auto' }}>
 
-          {/* Sources */}
-          <div style={{ opacity: 0.7, fontSize: '0.9rem', textAlign: 'center' }}>
-            <p>Analyzed threads:</p>
-            <ul style={{ listStyle: 'none', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              {result.sources.map((source, i) => (
-                <li key={i}>
-                  <a href={source.url} target="_blank" style={{ color: 'var(--accent-secondary)', textDecoration: 'underline' }}>
-                    {source.title.substring(0, 50)}...
-                  </a>
-                </li>
-              ))}
+          {/* Free Plan */}
+          <div className="card-glass" style={{ textAlign: 'center' }}>
+            <h3 style={{ fontSize: '1.5rem' }}>Hobby</h3>
+            <div style={{ fontSize: '3rem', fontWeight: '800', margin: '1rem 0' }}>$0</div>
+            <p style={{ marginBottom: '2rem' }}>For personal research.</p>
+            <ul style={{ textAlign: 'left', listStyle: 'none', marginBottom: '2rem' }}>
+              <li style={{ marginBottom: '0.5rem' }}>✓ 5 Searches / Day</li>
+              <li style={{ marginBottom: '0.5rem' }}>✓ Basic Sentiment Analysis</li>
+              <li style={{ marginBottom: '0.5rem' }}>✓ Link Analysis Only</li>
             </ul>
+            <Link href="/app">
+              <button className="btn-primary" style={{ width: '100%', background: 'var(--text-main)' }}>Get Started</button>
+            </Link>
+          </div>
+
+          {/* Pro Plan */}
+          <div className="card-glass" style={{ textAlign: 'center', border: '2px solid var(--primary)', position: 'relative' }}>
+            <div style={{ position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)', background: 'var(--primary)', color: 'white', padding: '4px 12px', borderRadius: '100px', fontWeight: 'bold', fontSize: '0.8rem' }}>MOST POPULAR</div>
+            <h3 style={{ fontSize: '1.5rem', color: 'var(--primary)' }}>Pro</h3>
+            <div style={{ fontSize: '3rem', fontWeight: '800', margin: '1rem 0' }}>$29</div>
+            <p style={{ marginBottom: '2rem' }}>For founders & product teams.</p>
+            <ul style={{ textAlign: 'left', listStyle: 'none', marginBottom: '2rem' }}>
+              <li style={{ marginBottom: '0.5rem' }}>✓ Unlimited Searches</li>
+              <li style={{ marginBottom: '0.5rem' }}>✓ <b>Competitor & Risk Intel</b></li>
+              <li style={{ marginBottom: '0.5rem' }}>✓ Topic Discovery Mode</li>
+              <li style={{ marginBottom: '0.5rem' }}>✓ Export to PDF/Notion</li>
+            </ul>
+            <button className="btn-primary" style={{ width: '100%' }}>Start Free Trial</button>
           </div>
 
         </div>
-      )}
-    </main>
+      </section>
+
+      {/* FAQs Section */}
+      <section id="faqs" className="section reveal-on-scroll" style={{ background: 'rgba(255,255,255,0.4)', borderRadius: '30px', margin: '4rem auto' }}>
+        <h2 className="section-title">Frequently Asked Questions</h2>
+        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <div className="card-glass" style={{ marginBottom: '1rem', padding: '1.5rem' }}>
+            <h4 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>Does this work on any subreddit?</h4>
+            <p>Yes. ThreadSense can parse any public Reddit thread. However, it works best on discussion-heavy subreddits like r/technology, r/startups, or r/BuyItForLife.</p>
+          </div>
+          <div className="card-glass" style={{ marginBottom: '1rem', padding: '1.5rem' }}>
+            <h4 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>How accurate is the sentiment analysis?</h4>
+            <p>We use state-of-the-art LLMs (Gemini Pro) to understand context, sarcasm, and nuance. It is significantly more accurate than keyword-based sentiment tools.</p>
+          </div>
+          <div className="card-glass" style={{ marginBottom: '1rem', padding: '1.5rem' }}>
+            <h4 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>Is my search data private?</h4>
+            <p>Yes. We do not store your search history or the content of the threads you analyze. All processing is done on-the-fly.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="section">
+        <h2 className="section-title">Get in Touch</h2>
+        <div className="card-glass" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ marginBottom: '2rem' }}>Have questions? Need a custom enterprise integration? We'd love to hear from you.</p>
+          <a href="mailto:katkamnikhil1305@gmail.com" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)', textDecoration: 'none' }}>katkamnikhil1305@gmail.com</a>
+          <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <button style={{ padding: '10px 20px', borderRadius: '8px', border: '1px solid #ddd', background: 'white' }}>Twitter</button>
+            <button style={{ padding: '10px 20px', borderRadius: '8px', border: '1px solid #ddd', background: 'white' }}>LinkedIn</button>
+          </div>
+        </div>
+      </section>
+
+      <footer style={{ textAlign: 'center', padding: '2rem', borderTop: '1px solid #eee', color: '#999', background: 'white' }}>
+        &copy; 2026 ThreadSense Inc. All rights reserved.
+      </footer>
+    </>
   );
 }
