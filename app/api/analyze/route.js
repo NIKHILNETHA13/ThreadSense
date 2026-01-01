@@ -7,12 +7,37 @@ export async function POST(request) {
     try {
         const { url, mode, input } = await request.json();
 
-        // DUAL API KEYS - Fallback Mechanism
-        // Key 1 is preferred (Default). Key 2 is backup.
-        const apiKeys = [
-            "AIzaSyBinKdOVohb9tMvJfgoU3uGigYrw52-Glg", // Primary
-            "AIzaSyAM1ZlbUeBH5ANPmXlrzgEAb4-nPmznuts"  // Backup
-        ];
+        const apiKey1 = process.env.GEMINI_API_KEY_1 || process.env.GEMINI_API_KEY; // Fallback for backward compat
+        const apiKey2 = process.env.GEMINI_API_KEY_2;
+
+        if (!apiKey1) {
+            console.error("API Key missing in environment variables");
+            return NextResponse.json({ error: 'Server configuration error: API Key not set' }, { status: 500 });
+        }
+
+        // ... (rest of the setup)
+
+        // Wrapper function to try analysis with fallback
+        const performAnalysis = async (text, query) => {
+            try {
+                console.log("Attempting analysis with Primary API Key...");
+                return await analyzeReviews(text, query, apiKey1);
+            } catch (error) {
+                const isAuthOrRateLimit = error.message.includes("401") ||
+                    error.message.includes("403") ||
+                    error.message.includes("429") ||
+                    error.message.includes("key") ||
+                    error.message.includes("Rate limit") ||
+                    error.message.includes("Access Denied");
+
+                if (isAuthOrRateLimit && apiKey2 && apiKey2 !== "REPLACE_WITH_YOUR_SECOND_KEY") {
+                    console.warn(`Primary Key failed (${error.message}). Switching to Secondary API Key...`);
+                    return await analyzeReviews(text, query, apiKey2);
+                } else {
+                    throw error;
+                }
+            }
+        };
 
         let combinedText = "";
         let sources = [];
@@ -94,11 +119,11 @@ export async function POST(request) {
 
         console.log(`Sending ${truncatedText.length} chars to AI...`);
 
-        // Perform Analysis - Pass ALL keys for fallback handling
-        const analysis = await analyzeReviews(truncatedText, queryFunc, apiKeys);
+        // Perform Analysis
+        const analysis = await performAnalysis(truncatedText, queryFunc);
 
         return NextResponse.json({
-            ...analysis,
+            analysis: analysis,
             sources: sources
         });
 
