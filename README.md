@@ -50,5 +50,3 @@ ThreadSense validates products and ideas by analyzing Reddit discussions. It use
 - **AI**: Google Gemini API (Free Tier)
 - **Data**: Reddit Public JSON API
 
-## 📝 License
-MIT
