@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function App() {
     const [input, setInput] = useState('');
-    const [mode, setMode] = useState('url'); // 'url' or 'topic'
+    const [mode, setMode] = useState('topic'); // 'topic' or 'url'
 
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
@@ -81,16 +81,16 @@ export default function App() {
 
                     <div className="toggle-group" style={{ justifyContent: 'center', display: 'flex' }}>
                         <button
-                            onClick={() => setMode('url')}
-                            className={`toggle-btn ${mode === 'url' ? 'active' : ''}`}
-                        >
-                            Link Analysis
-                        </button>
-                        <button
                             onClick={() => setMode('topic')}
                             className={`toggle-btn ${mode === 'topic' ? 'active' : ''}`}
                         >
                             Topic Discovery
+                        </button>
+                        <button
+                            onClick={() => setMode('url')}
+                            className={`toggle-btn ${mode === 'url' ? 'active' : ''}`}
+                        >
+                            Link Analysis
                         </button>
                     </div>
 
