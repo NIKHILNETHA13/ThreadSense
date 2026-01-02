@@ -67,8 +67,11 @@ export default function App() {
                         />
                     </Link>
                 </div>
-                <div className="nav-links">
+                <div className="nav-links hide-mobile">
                     <Link href="/" className="nav-link">← Back to Home</Link>
+                </div>
+                <div className="nav-links-mobile show-mobile">
+                    <Link href="/" className="btn-secondary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>← Home</Link>
                 </div>
             </nav>
 
@@ -157,7 +160,7 @@ export default function App() {
                     <div style={{ marginTop: '4rem', textAlign: 'left' }}>
 
                         {/* Executive Verdict Banner */}
-                        <div className="card-glass" style={{
+                        <div className="card-glass verdict-banner" style={{
                             marginBottom: '2rem',
                             display: 'flex',
                             alignItems: 'center',
@@ -165,7 +168,7 @@ export default function App() {
                             animation: 'slideUp 0.5s ease-out'
                         }}>
                             {/* Sentiment Gauge */}
-                            <div style={{ position: 'relative', width: '120px', height: '120px', flexShrink: 0 }}>
+                            <div className="sentiment-gauge" style={{ position: 'relative', width: '120px', height: '120px', flexShrink: 0 }}>
                                 <svg viewBox="0 0 36 36" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
                                     <path
                                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"

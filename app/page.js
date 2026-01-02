@@ -66,20 +66,17 @@ export default function LandingPage() {
               width: 'auto',
               transition: 'all 0.3s ease'
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
           />
         </div>
-        <div className="nav-links">
+        <div className="nav-links hide-mobile">
           <Link href="/app" className="nav-link" style={{ fontWeight: '700' }}>Launch App</Link>
           <a onClick={() => scrollToSection('why-use')} className="nav-link">Why Use</a>
           <a onClick={() => scrollToSection('pricing')} className="nav-link">Pricing</a>
           <a onClick={() => scrollToSection('faqs')} className="nav-link">FAQs</a>
           <a onClick={() => scrollToSection('contact')} className="nav-link">Contact</a>
+        </div>
+        <div className="nav-links-mobile show-mobile">
+          <Link href="/app" className="btn-primary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>Launch App</Link>
         </div>
       </nav>
 
@@ -89,23 +86,23 @@ export default function LandingPage() {
           ✨ AI-Powered Review Intelligence
         </div>
 
-        <h1 className="scroll-reveal-up scroll-reveal-delay-1" style={{
+        <h1 className="scroll-reveal-up scroll-reveal-delay-1 gradient-text" style={{
           fontSize: '4.5rem',
           marginBottom: '1.5rem',
-          color: '#0f172a',
           lineHeight: '1.1'
         }}>
-          Decode Real Reviews from <br />
-          <span className="gradient-text">Real Discussions.</span>
+          Decode Real Reviews <br className="hide-mobile" />
+          from Real Discussions.
         </h1>
 
         <p className="scroll-reveal-up scroll-reveal-delay-2" style={{
-          fontSize: '1.3rem',
+          fontSize: '1.2rem',
           marginBottom: '1rem',
-          maxWidth: '750px',
-          margin: '0 auto 1rem auto',
+          maxWidth: '800px',
+          margin: '0 auto 1.5rem auto',
           color: 'var(--text-muted)',
-          fontWeight: '400'
+          fontWeight: '400',
+          lineHeight: '1.6'
         }}>
           <strong style={{ color: 'var(--text-main)' }}>Redeco</strong> (Review Decoder) uses advanced AI to analyze thousands of Reddit comments, filtering noise to reveal honest product insights in seconds.
         </p>
@@ -121,33 +118,34 @@ export default function LandingPage() {
 
         <div className="scroll-reveal-up scroll-reveal-delay-4" style={{
           display: 'flex',
-          gap: '1.2rem',
+          gap: '1rem',
           justifyContent: 'center',
-          flexWrap: 'wrap'
+          flexWrap: 'wrap',
+          padding: '0 1rem'
         }}>
-          <Link href="/app">
-            <button className="btn-primary" style={{ padding: '17px 36px', fontSize: '1.1rem' }}>
+          <Link href="/app" style={{ width: '100%', maxWidth: '300px' }}>
+            <button className="btn-primary" style={{ width: '100%', padding: '16px', fontSize: '1.1rem', justifyContent: 'center' }}>
               Launch App →
             </button>
           </Link>
           <button
             onClick={() => scrollToSection('why-use')}
             className="btn-secondary"
-            style={{ padding: '17px 36px', fontSize: '1.1rem' }}
+            style={{ width: '100%', maxWidth: '300px', padding: '16px', fontSize: '1.1rem', justifyContent: 'center' }}
           >
             Learn More
           </button>
         </div>
 
-        {/* Hero Image */}
-        <div className="scroll-reveal-scale scroll-reveal-delay-5" style={{
+        {/* Hero Image Container */}
+        <div className="scroll-reveal-scale scroll-reveal-delay-5 hero-image-container" style={{
           marginTop: '5rem',
           maxWidth: '55%',
           margin: '5rem auto 0 auto',
           borderRadius: '28px',
           overflow: 'hidden',
-          boxShadow: '0 30px 70px -15px rgba(139, 92, 246, 0.3), 0 15px 40px -12px rgba(0,0,0,0.15)',
-          border: '1px solid rgba(139, 92, 246, 0.15)',
+          boxShadow: '0 30px 70px -15px rgba(220, 38, 38, 0.2), 0 15px 40px -12px rgba(0,0,0,0.1)',
+          border: '1px solid rgba(220, 38, 38, 0.1)',
           background: 'white',
           transition: 'transform 0.5s ease, box-shadow 0.5s ease'
         }}

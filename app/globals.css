@@ -846,73 +846,107 @@ p {
    ============================================ */
 
 @media (max-width: 768px) {
+    :root {
+        --nav-height: 70px;
+    }
+
+    .section {
+        padding: 4rem 1rem;
+    }
+
     .section-title {
         font-size: 2rem;
+        margin-bottom: 2rem;
     }
 
     .navbar {
         padding: 0 1rem;
-        height: 70px;
+        height: var(--nav-height);
         justify-content: space-between;
     }
 
-    /* Keep Logo Visible */
     .logo img {
         height: 35px !important;
     }
 
-    /* Make nav links scrollable horizontally regarding space constraints */
     .nav-links {
         display: none;
-        /* For now, hiding links on mobile is safer than a broken menu. 
-                     Ideally, implement a hamburger menu later. 
-                     Or show just the 'Launch App' button. */
     }
 
-    /* Show a simplified "Launch App" button on mobile safely */
-    .navbar::before {
-        content: 'Launch App';
-        display: block;
-        position: absolute;
-        right: 1.5rem;
-        background: var(--gradient-primary);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        pointer-events: none;
-        /* Just visual for now to signify app action */
-    }
-
-    /* Adjust Hero Text */
-    .hero-section h1 {
-        font-size: 2.8rem !important;
-    }
-
-    .hero-section p {
-        font-size: 1rem !important;
-        padding: 0 1rem;
-    }
-
-    /* Stack Grid Items */
-    .grid-cols-2 {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    /* Adjust Shapes for performance/visuals */
-    .shape-1,
-    .shape-2,
-    .shape-3 {
-        filter: blur(60px);
-        opacity: 0.3;
+    /* Show only important link on mobile navbar */
+    .navbar .nav-links-mobile {
+        display: flex;
+        gap: 1rem;
     }
 
     .hero-section {
-        padding-top: 6rem;
+        padding-top: 5rem;
         min-height: auto;
-        padding-bottom: 4rem;
+        padding-bottom: 3rem;
+    }
+
+    .hero-section h1 {
+        font-size: 2.5rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero-section p {
+        font-size: 1.1rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .hero-section .hero-image-container {
+        max-width: 90% !important;
+        margin-top: 3rem !important;
+    }
+
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .card-glass {
+        padding: 1.5rem;
+    }
+
+    .shape-1,
+    .shape-2,
+    .shape-3 {
+        filter: blur(80px);
+        opacity: 0.3;
+    }
+
+    /* Ensure verdict banner stacks on mobile */
+    .verdict-banner {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem !important;
+        padding: 2rem 1rem !important;
+    }
+
+    .verdict-banner .sentiment-gauge {
+        width: 100px !important;
+        height: 100px !important;
+        margin: 0 auto;
+    }
+}
+
+/* Utilities for responsive display */
+.hide-mobile {
+    display: block;
+}
+
+.show-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none !important;
+    }
+
+    .show-mobile {
+        display: block !important;
     }
 }
 
