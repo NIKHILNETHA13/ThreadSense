@@ -1,0 +1,969 @@
+:root {
+    /* Redeco Fresh Theme - Red & White Aesthetic */
+
+    /* Core Palette */
+    --bg-page: #ffffff;
+    --bg-subtle: #f9fafb;
+
+    /* Primary Brand Colors */
+    --primary: #dc2626;
+    /* Fresh Red */
+    --primary-hover: #b91c1c;
+    --primary-light: #fef2f2;
+    --primary-glow: rgba(220, 38, 38, 0.25);
+
+    /* Accent Colors - Neutral & Red Tones */
+    --accent: #4b5563;
+    /* Slate Grey for balance */
+    --accent-blue: #dc2626;
+    /* Replaced with Red */
+    --accent-cyan: #ef4444;
+    /* Replaced with Lighter Red */
+    --accent-purple: #991b1b;
+    /* Replaced with Dark Red */
+    --accent-orange: #f87171;
+    /* Replaced with Soft Red */
+
+    /* Gradient Definitions - Subtle & Clean */
+    --gradient-primary: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    --gradient-accent: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    /* Subtle off-white/red tint */
+    --gradient-warm: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    --gradient-cool: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    /* Clean grey gradient */
+
+    /* Text Colors */
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --text-light: #9ca3af;
+
+    /* Glass/Surface */
+    --glass-surface: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(229, 231, 235, 0.7);
+    --glass-shadow: rgba(0, 0, 0, 0.04);
+
+    /* Animation Timing */
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    --ease-premium: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* Layout */
+    --nav-height: 80px;
+
+    /* Typography */
+    --font-heading: var(--font-heading),
+        sans-serif;
+    --font-body: var(--font-body),
+        sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-height);
+}
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ============================================
+   PREMIUM ANIMATED BACKGROUND - CLEAN
+   ============================================ */
+
+.bg-mesh {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: white;
+    /* Clean white base */
+    overflow: hidden;
+}
+
+/* Subtle Red/Grey Orbs */
+.shape {
+    position: absolute;
+    filter: blur(140px);
+    /* Enhance blur for softness */
+    opacity: 0.5;
+    border-radius: 50%;
+    animation: float 25s infinite ease-in-out;
+    will-change: transform;
+}
+
+.shape-1 {
+    top: -10%;
+    left: -5%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, rgba(254, 226, 226, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+    /* Very light red */
+    animation-delay: 0s;
+    animation-duration: 28s;
+}
+
+.shape-2 {
+    bottom: -10%;
+    right: -5%;
+    width: 45vw;
+    height: 45vw;
+    background: radial-gradient(circle, rgba(243, 244, 246, 0.9) 0%, rgba(255, 255, 255, 0) 70%);
+    /* Light grey */
+    animation-delay: -10s;
+    animation-duration: 32s;
+}
+
+.shape-3 {
+    top: 35%;
+    left: 40%;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, rgba(254, 242, 242, 0.7) 0%, rgba(255, 255, 255, 0) 70%);
+    /* Ultra light red */
+    animation-delay: -5s;
+    animation-duration: 24s;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+
+    25% {
+        transform: translate(30px, -40px) rotate(4deg) scale(1.04);
+    }
+
+    50% {
+        transform: translate(-30px, 30px) rotate(-5deg) scale(0.96);
+    }
+
+    75% {
+        transform: translate(40px, 25px) rotate(3deg) scale(1.02);
+    }
+}
+
+/* ============================================
+   PREMIUM SCROLL REVEAL ANIMATIONS
+   ============================================ */
+
+/* Fade In Up - Default */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade In Left */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Fade In Right */
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scale In */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Scroll-triggered reveal using Intersection Observer */
+.scroll-reveal {
+    opacity: 0;
+    transition: all 1s var(--ease-premium);
+}
+
+.scroll-reveal.revealed {
+    opacity: 1;
+}
+
+.scroll-reveal-up {
+    opacity: 0;
+    transform: translateY(80px);
+    /* Increased for more drama */
+    transition: all 0.9s var(--ease-premium);
+}
+
+.scroll-reveal-up.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-reveal-left {
+    opacity: 0;
+    transform: translateX(-80px);
+    transition: all 0.9s var(--ease-premium);
+}
+
+.scroll-reveal-left.revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.scroll-reveal-right {
+    opacity: 0;
+    transform: translateX(80px);
+    transition: all 0.9s var(--ease-premium);
+}
+
+.scroll-reveal-right.revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.scroll-reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 1s var(--ease-premium);
+}
+
+.scroll-reveal-scale.revealed {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* NEW: Staggered Rotate Up */
+.scroll-reveal-rotate {
+    opacity: 0;
+    transform: translateY(60px) rotate(5deg);
+    transition: all 1s var(--ease-premium);
+}
+
+.scroll-reveal-rotate.revealed {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+}
+
+/* NEW: Zoom In dramatic */
+.scroll-reveal-zoom {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+    transition: all 0.8s var(--ease-bounce);
+}
+
+.scroll-reveal-zoom.revealed {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* Stagger delays for multiple items */
+.scroll-reveal-delay-1 {
+    transition-delay: 0.1s;
+}
+
+.scroll-reveal-delay-2 {
+    transition-delay: 0.2s;
+}
+
+.scroll-reveal-delay-3 {
+    transition-delay: 0.3s;
+}
+
+.scroll-reveal-delay-4 {
+    transition-delay: 0.4s;
+}
+
+.scroll-reveal-delay-5 {
+    transition-delay: 0.5s;
+}
+
+.scroll-reveal-delay-6 {
+    transition-delay: 0.6s;
+}
+
+/* ============================================
+   TYPOGRAPHY WITH EFFECTS
+   ============================================ */
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-heading);
+    color: var(--text-main);
+    line-height: 1.2;
+}
+
+h1 {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+h2 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+h3 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+p {
+    line-height: 1.7;
+    color: var(--text-muted);
+}
+
+/* Red Gradient Text Effect (Monochrome/Red scale) */
+.gradient-text {
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-alt {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ============================================
+   NAVIGATION BAR
+   ============================================ */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    transition: all 0.3s var(--ease-smooth);
+}
+
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.navbar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.navbar:hover::after {
+    opacity: 0.6;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--text-main);
+    /* Simple Dark Text */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s var(--ease-bounce);
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s var(--ease-smooth);
+    cursor: pointer;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s var(--ease-smooth);
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* ============================================
+   TOGGLE BUTTONS - Minimalist
+   ============================================ */
+
+.toggle-group {
+    display: inline-flex;
+    background: #f3f4f6;
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.toggle-btn {
+    padding: 10px 24px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.toggle-btn.active {
+    background: white;
+    color: var(--primary);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================
+   PREMIUM BUTTONS - Red/White
+   ============================================ */
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    padding: 15px 32px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::before {
+    width: 320px;
+    height: 320px;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--text-main);
+    padding: 15px 32px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.1);
+}
+
+/* ============================================
+   GLASS CARDS - Clean White
+   ============================================ */
+
+.card-glass {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: all 0.4s var(--ease-premium);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-glass::before {
+    display: none;
+    /* Remove shininess for cleaner look */
+}
+
+.card-glass:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.05),
+        0 10px 10px -5px rgba(0, 0, 0, 0.02),
+        0 0 0 1px var(--primary-light);
+    border-color: var(--primary-light);
+}
+
+/* Card Variants - Subtle Red Tints */
+.card-gradient-1 {
+    background: #fff;
+}
+
+.card-gradient-2 {
+    background: #fff;
+}
+
+.card-gradient-3 {
+    background: #fff;
+}
+
+.card-gradient-4 {
+    background: #fff;
+}
+
+/* Keep hover effects subtle */
+.card-glass:hover h3 {
+    color: var(--primary);
+}
+
+/* ============================================
+   INPUTS
+   ============================================ */
+.input-clean {
+    width: 100%;
+    padding: 16px 20px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    color: var(--text-main);
+    outline: none;
+    transition: all 0.3s var(--ease-smooth);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.input-clean:focus {
+    border-color: var(--accent);
+    box-shadow:
+        0 0 0 4px rgba(139, 92, 246, 0.1),
+        0 6px 16px rgba(139, 92, 246, 0.15);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+
+.section {
+    padding: 7rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.hero-section {
+    padding-top: 9rem;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.section-title {
+    font-size: 2.8rem;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    color: var(--text-main);
+}
+
+/* ============================================
+   GRIDS
+   ============================================ */
+
+.grid-cols-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 2.5rem;
+}
+
+/* ============================================
+   BADGES & LABELS
+   ============================================ */
+
+.badge-premium {
+    display: inline-block;
+    padding: 10px 24px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(59, 130, 246, 0.12));
+    border: 1.5px solid rgba(139, 92, 246, 0.25);
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--accent);
+    animation: float-badge 3s ease-in-out infinite;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+}
+
+@keyframes float-badge {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.sentiment-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 var(--primary-glow);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(225, 29, 72, 0);
+    }
+}
+
+/* ============================================
+   LIST ITEMS
+   ============================================ */
+
+.list-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+    font-size: 1rem;
+}
+
+.icon {
+    flex-shrink: 0;
+    font-weight: bold;
+}
+
+.icon-ok {
+    color: #10b981;
+}
+
+.icon-bad {
+    color: var(--primary);
+}
+
+/* ============================================
+   LOADING ANIMATIONS
+   ============================================ */
+
+.loader-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: bounce 0.6s infinite alternate;
+}
+
+.loader-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loader-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+/* ============================================
+   UTILITY ANIMATIONS
+   ============================================ */
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes glow {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.4));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 24px rgba(139, 92, 246, 0.6));
+    }
+}
+
+/* Smooth Scroll Progress Bar */
+.scroll-progress {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    z-index: 99;
+    transform-origin: left;
+    transition: transform 0.1s ease-out;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    :root {
+        --nav-height: 70px;
+    }
+
+    .section {
+        padding: 4rem 1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .navbar {
+        padding: 0 1rem;
+        height: var(--nav-height);
+        justify-content: space-between;
+    }
+
+    .logo img {
+        height: 35px !important;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    /* Show only important link on mobile navbar */
+    .navbar .nav-links-mobile {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .hero-section {
+        padding-top: 5rem;
+        min-height: auto;
+        padding-bottom: 3rem;
+    }
+
+    .hero-section h1 {
+        font-size: 2.5rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero-section p {
+        font-size: 1.1rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .hero-section .hero-image-container {
+        max-width: 90% !important;
+        margin-top: 3rem !important;
+    }
+
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .card-glass {
+        padding: 1.5rem;
+    }
+
+    .shape-1,
+    .shape-2,
+    .shape-3 {
+        filter: blur(80px);
+        opacity: 0.3;
+    }
+
+    /* Ensure verdict banner stacks on mobile */
+    .verdict-banner {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem !important;
+        padding: 2rem 1rem !important;
+    }
+
+    .verdict-banner .sentiment-gauge {
+        width: 100px !important;
+        height: 100px !important;
+        margin: 0 auto;
+    }
+}
+
+/* Utilities for responsive display */
+.show-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none !important;
+    }
+
+    .show-mobile {
+        display: block !important;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    .hero-section h1 {
+        font-size: 2.4rem !important;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
