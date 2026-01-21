@@ -25,10 +25,17 @@ const handler = NextAuth({
         provider: account?.provider,
         email: profile?.email,
         hasClientId: !!process.env.GOOGLE_CLIENT_ID,
-        hasSecret: !!process.env.NEXTAUTH_SECRET
+        hasSecret: !!process.env.NEXTAUTH_SECRET,
+        nextAuthUrl: process.env.NEXTAUTH_URL
       });
       return true;
     },
+  },
+  events: {
+    async signIn(message) { console.log("SignIn Event:", message.user.email); },
+    async createUser(message) { console.log("User Created:", message.user.email); },
+    async linkAccount(message) { console.log("Account Linked:", message.user.email); },
+    async session(message) { /* console.log("Session Event"); */ },
   },
   pages: {
     signIn: '/',

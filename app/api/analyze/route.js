@@ -13,7 +13,17 @@ export async function POST(request) {
         if (!apiKey) {
             console.error("CRITICAL: GEMINI_API_KEY is missing in process.env!");
             console.log("Available Env Vars (Keys only):", Object.keys(process.env).filter(k => !k.includes('SECRET') && !k.includes('KEY')));
+            console.log("Environment Info:", { nodeEnv: process.env.NODE_ENV, nextAuthUrl: process.env.NEXTAUTH_URL });
             return NextResponse.json({ error: 'Server configuration error: API Key not set' }, { status: 500 });
+        }
+
+        // Log environment info even if API key is present
+        if (process.env.NODE_ENV === 'production') {
+            console.log("Production Environment Check:", {
+                hasNextAuthUrl: !!process.env.NEXTAUTH_URL,
+                hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
+                hasNextAuthGoogleId: !!process.env.GOOGLE_CLIENT_ID
+            });
         }
 
         let combinedText = "";
