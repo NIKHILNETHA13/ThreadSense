@@ -8,10 +8,11 @@ export async function POST(request) {
         const { url, mode, input } = await request.json();
 
         // Use Environment Variable for security
-        const apiKey = process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY_1;
+        const apiKey = (process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY_1)?.trim();
 
         if (!apiKey) {
-            console.error("API Key missing! Ensure GEMINI_API_KEY is set in your environment.");
+            console.error("CRITICAL: GEMINI_API_KEY is missing in process.env!");
+            console.log("Available Env Vars (Keys only):", Object.keys(process.env).filter(k => !k.includes('SECRET') && !k.includes('KEY')));
             return NextResponse.json({ error: 'Server configuration error: API Key not set' }, { status: 500 });
         }
 

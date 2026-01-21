@@ -21,9 +21,18 @@ const handler = NextAuth({
       return session;
     },
     async signIn({ account, profile }) {
-      console.log("SignIn Attempt:", { provider: account?.provider, email: profile?.email });
+      console.log("SignIn Attempt:", {
+        provider: account?.provider,
+        email: profile?.email,
+        hasClientId: !!process.env.GOOGLE_CLIENT_ID,
+        hasSecret: !!process.env.NEXTAUTH_SECRET
+      });
       return true;
     },
+  },
+  pages: {
+    signIn: '/',
+    error: '/',
   },
 });
 
